@@ -1,0 +1,284 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Placement Readiness Scorecard</title>
+
+  
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}" />
+</head>
+<body>
+
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="navbar">
+        <div class="navbar-inner">
+            <a href="{% url 'core:home' %}" class="logo">
+                <span class="logo-icon">&#9670;</span>
+                <span class="logo-text">Placement Readiness Scorecard</span>
+            </a>
+
+            <nav class="nav-links">
+                
+                
+                <!-- Action Buttons: Secondary Sign In Button Box + Primary Sign Up Button Box -->
+                <div class="nav-actions">
+                    <div class="dropdown" id="navSignInDropdown">
+                        <button class="nav-btn-secondary dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">
+                            Sign In <span class="dropdown-caret">&#9662;</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="{% url 'signin_student' %}" class="dropdown-item">Student</a>
+                            <a href="{% url 'signin_admin' %}" class="dropdown-item">Admin</a>
+                        </div>
+                    </div>
+                    <a href="{% url 'student:signup' %}" class="nav-btn-primary">Sign Up</a>
+                </div>
+            </nav>
+
+            <!-- Hamburger for mobile — toggled by script.js -->
+            <button class="hamburger" id="hamburger" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+
+        <!-- Mobile menu drawer -->
+        <div class="mobile-menu" id="mobileMenu">
+            
+            
+            <!-- Mobile Sign In Dropdown -->
+            <div class="mobile-dropdown" id="mobileSignInDropdown">
+                <button type="button" class="mobile-dropdown-toggle">
+                    Sign In <span class="dropdown-caret">&#9662;</span>
+                </button>
+                <div class="mobile-dropdown-menu">
+                    <a href="{% url 'signin_student' %}" class="mobile-sublink">Student</a>
+                    <a href="{% url 'signin_admin' %}" class="mobile-sublink">Admin</a>
+                </div>
+            </div>
+            <a href="{% url 'student:signup' %}" class="nav-btn-primary">Sign Up</a>
+        </div>
+    </header>
+
+
+    <!-- ===================== HERO SECTION ===================== -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-text">
+                <h1 class="hero-heading">
+                    Know Exactly Where<br />
+                    You Stand.<br />
+                    <span class="hero-heading-accent">Before Placement Season.</span>
+                </h1>
+                <p class="hero-sub">
+                    Answer a few questions about your skills, academics, and projects.
+                    Our system evaluates your responses and gives you a
+                    <strong>Placement Readiness Score</strong> along with the areas
+                    you need to improve.
+                </p>
+                <div class="hero-actions">
+                    <a href="{% url 'student:signup' %}" class="btn btn-primary">Sign Up</a>
+                    <!-- Hero Sign In Dropdown -->
+                    <div class="dropdown hero-dropdown" id="heroSignInDropdown">
+                        <button type="button" class="btn btn-secondary dropdown-toggle hero-dropdown-toggle" aria-expanded="false" aria-haspopup="true">
+                            Sign In <span class="dropdown-caret">&#9662;</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="{% url 'signin_student' %}" class="dropdown-item">Student</a>
+                            <a href="{% url 'signin_admin' %}" class="dropdown-item">Admin</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simple score preview card — purely decorative HTML/CSS -->
+            <div class="hero-card" aria-hidden="true">
+                <p class="card-label">Your Readiness Score</p>
+                <div class="score-ring">
+                    <span class="score-number">--</span>
+                    <span class="score-slash">/ 100</span>
+                </div>
+                <ul class="score-hints">
+                    <li class="hint-item hint-ok">&#10003; Core Subjects</li>
+                    <li class="hint-item hint-warn">&#9888; DSA Practice</li>
+                    <li class="hint-item hint-bad">&#10007; Projects</li>
+                </ul>
+                <p class="card-note">Sign up to see your actual score</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===================== HOW IT WORKS ===================== -->
+    <section class="how" id="about">
+        <div class="section-inner">
+            <h2 class="section-heading">How It Works</h2>
+            <p class="section-sub">
+                No guesswork. No complicated setup. Just honest self-evaluation.
+            </p>
+
+            <div class="steps-grid">
+                <div class="step-item">
+                    <div class="step-number">01</div>
+                    <h3 class="step-title">Enter Your Preparation Details</h3>
+                    <p class="step-desc">
+                        Fill in your academic score, number of DSA problems solved,
+                        projects completed, internship experience, and technical skills.
+                    </p>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-number">02</div>
+                    <h3 class="step-title">System Evaluates Your Profile</h3>
+                    <p class="step-desc">
+                        Our algorithm processes your inputs against defined scoring rules
+                        and benchmarks that reflect common placement requirements.
+                    </p>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-number">03</div>
+                    <h3 class="step-title">Receive Your Readiness Score</h3>
+                    <p class="step-desc">
+                        You receive a score out of 100 that reflects your overall
+                        placement preparedness based on weighted criteria.
+                    </p>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-number">04</div>
+                    <h3 class="step-title">See Areas for Improvement</h3>
+                    <p class="step-desc">
+                        The result page highlights exactly which areas are bringing
+                        your score down so you can focus your preparation effectively.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===================== FEATURES ===================== -->
+    <section class="features">
+        <div class="section-inner">
+            <div class="features-header">
+                <div>
+                    <h2 class="section-heading">What the Platform Evaluates</h2>
+                    <p class="section-sub">
+                        Three clear pillars that together form your placement readiness.
+                    </p>
+                </div>
+            </div>
+
+            <div class="features-layout">
+                <!-- Left: feature list -->
+                <div class="feature-list">
+                    <div class="feature-item" id="feat-1">
+                        <div class="feature-icon">&#128202;</div>
+                        <div>
+                            <h3 class="feature-title">Skill Assessment</h3>
+                            <p class="feature-desc">
+                                Rate your proficiency in programming languages,
+                                data structures, algorithms, databases, and operating systems.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item" id="feat-2">
+                        <div class="feature-icon">&#127942;</div>
+                        <div>
+                            <h3 class="feature-title">Readiness Score</h3>
+                            <p class="feature-desc">
+                                A single score out of 100 calculated from your inputs
+                                using our custom weighted scoring algorithm.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item" id="feat-3">
+                        <div class="feature-icon">&#128270;</div>
+                        <div>
+                            <h3 class="feature-title">Weak Area Identification</h3>
+                            <p class="feature-desc">
+                                Automatically flags areas where your score falls below
+                                the minimum threshold, giving you a clear action plan.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: decorative info panel -->
+                <div class="feature-panel">
+                    <p class="panel-heading">Live Scoring Weights</p>
+                    <ul class="criteria-list">
+                        <li class="criteria-row">
+                            <span class="criteria-name">Subject Technical Tests</span>
+                            <span class="criteria-weight">40 pts</span>
+                        </li>
+                        <li class="criteria-row">
+                            <span class="criteria-name">Final Mock Placement Exam</span>
+                            <span class="criteria-weight">25 pts</span>
+                        </li>
+                        <li class="criteria-row">
+                            <span class="criteria-name">Profile & Skills Completeness</span>
+                            <span class="criteria-weight">15 pts</span>
+                        </li>
+                        <li class="criteria-row">
+                            <span class="criteria-name">Academic CGPA</span>
+                            <span class="criteria-weight">10 pts</span>
+                        </li>
+                        <li class="criteria-row">
+                            <span class="criteria-name">Assessment Consistency</span>
+                            <span class="criteria-weight">10 pts</span>
+                        </li>
+                        <li class="criteria-total-row">
+                            <span class="criteria-name">Total Readiness Index</span>
+                            <span class="criteria-weight">100 pts</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===================== CALL TO ACTION ===================== -->
+    <section class="cta">
+        <div class="section-inner cta-inner">
+            <h2 class="cta-heading">Ready to find out where you stand?</h2>
+            <p class="cta-sub">
+                Take timed assessments, view your personalized weak-area detection, and track your global placement rank.
+            </p>
+            <div class="cta-actions">
+                <a href="{% url 'student:signup' %}" class="btn btn-primary">Create Student Account</a>
+                <a href="{% url 'signin_student' %}" class="btn btn-ghost">Sign In</a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="logo-icon">&#9670;</span>
+                <span class="logo-text">Placement Readiness Scorecard</span>
+            </div>
+            <p class="footer-copy">
+                Placement Readiness Scorecard &mdash; Transparent, explainable algorithmic assessment for engineering campus recruitment.
+            </p>
+        </div>
+    </footer>
+
+
+    <!--
+        {% static '...' %} for the JS file.
+        Placed at the bottom of <body> so the HTML loads first,
+        then the script runs. This is a best practice.
+    -->
+    <script src="{% static 'core/js/script.js' %}"></script>
+    <script src="{% static 'core/js/theme.js' %}"></script>
+
+</body>
+</html>

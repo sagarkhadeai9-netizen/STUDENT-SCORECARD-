@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Exam Results - Placement Readiness Scorecard</title>
+    <link rel="stylesheet" href="{% static 'student/css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'assignments/css/assignments.css' %}" />
+</head>
+<body class="dashboard-app">
+
+    {% include 'student/sidebar.html' with active_nav='assignments' active_sub='results' %}
+
+    <!-- ===================== MAIN CONTENT WRAPPER ===================== -->
+    <div class="main-wrapper">
+        <div class="assignment-container">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">My Assessment Results</h1>
+                    <p class="page-subtitle">Track your historical performance, review answers, and inspect detailed explanations.</p>
+                </div>
+                <div>
+                    <a href="{% url 'assignments:student_list' %}" class="btn btn-primary">
+                        Take More Assessments &rarr;
+                    </a>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Exam Title</th>
+                            <th>Category</th>
+                            <th>Subject</th>
+                            <th>Score</th>
+                            <th>Percentage</th>
+                            <th>Correct / Wrong / Blank</th>
+                            <th>Submitted Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for att in attempts %}
+                            <tr>
+                                <td>
+                                    <strong>{{ att.assignment.title }}</strong>
+                                </td>
+                                <td>
+                                    {% if att.assignment.exam_type == 'FINAL' %}
+                                        <span class="badge badge-final">Final Exam</span>
+                                    {% else %}
+                                        <span class="badge badge-subject">Subject Test</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ att.assignment.subject }}</td>
+                                <td>
+                                    <strong>{{ att.score }}</strong> / {{ att.assignment.total_marks }}
+                                </td>
+                                <td>
+                                    <span style="font-weight: 700; color: {% if att.percentage >= 70 %}#16a34a{% elif att.percentage >= 40 %}#d97706{% else %}#dc2626{% endif %};">
+                                        {{ att.percentage }}%
+                                    </span>
+                                </td>
+                                <td>
+                                    <span style="color: #16a34a; font-weight: 600;">{{ att.correct_count }}</span> /
+                                    <span style="color: #dc2626; font-weight: 600;">{{ att.wrong_count }}</span> /
+                                    <span style="color: #64748b;">{{ att.unattempted_count }}</span>
+                                </td>
+                                <td>
+                                    {{ att.submitted_at|date:"M d, Y H:i" }}
+                                </td>
+                                <td>
+                                    <a href="{% url 'assignments:student_result' att.assignment.id %}" class="btn btn-secondary btn-sm">
+                                        View Solutions &rarr;
+                                    </a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="8" style="text-align: center; padding: 40px; color: var(--clr-text-muted);">
+                                    You have not completed any assignments yet. Go to <a href="{% url 'assignments:student_list' %}" style="color: var(--clr-primary); font-weight: 600;">Available Assignments</a> to attempt your first test!
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Global CodeHelp Theme Controller (Ctrl + M & Ctrl + K) -->
+    <script src="{% static 'core/js/theme.js' %}"></script>
+</body>
+</html>

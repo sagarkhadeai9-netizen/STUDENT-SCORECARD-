@@ -1,0 +1,402 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Assessment - Admin</title>
+    <link rel="stylesheet" href="{% static 'adminpanel/css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'assignments/css/assignments.css' %}" />
+    <style>
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .form-grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+        .checkbox-pill-group {
+            display: flex;
+            gap: 20px;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-top: 6px;
+        }
+        .checkbox-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: #1e293b;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="dashboard-app">
+
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-logo-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect x="2" y="10" width="4" height="11" rx="1.5" fill="#38bdf8"/>
+                    <rect x="9" y="5" width="4" height="16" rx="1.5" fill="#2563eb"/>
+                    <rect x="16" y="2" width="4" height="19" rx="1.5" fill="#60a5fa"/>
+                </svg>
+            </div>
+            <div class="brand-title-wrap">
+                <h2 class="brand-title" style="color: #2563eb; font-size: 1.05rem;">Placement Readiness</h2>
+                <span class="brand-sub">Scorecard</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="{% url 'adminpanel:dashboard' %}" class="nav-item">
+                <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{% url 'assignments:admin_list' %}" class="nav-item active">
+                <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                </svg>
+                <span>Assessments</span>
+            </a>
+
+            <a href="{% url 'adminpanel:students' %}" class="nav-item">
+                <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                <span>Students</span>
+            </a>
+
+            <a href="{% url 'adminpanel:student_scores' %}" class="nav-item">
+                <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+                <span>Student Scores</span>
+            </a>
+
+            <a href="{% url 'adminpanel:reports' %}" class="nav-item">
+                <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="12" y1="18" x2="12" y2="12"></line>
+                    <line x1="9" y1="15" x2="15" y2="15"></line>
+                </svg>
+                <span>Reports</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer" style="padding: 16px;">
+            <div class="user-profile-widget">
+                <div class="user-profile-info">
+                    <div class="user-avatar-circle">A</div>
+                    <div class="user-names-wrap">
+                        <div class="user-full-name">Admin Console</div>
+                        <div class="user-email-sub">Administrator</div>
+                    </div>
+                </div>
+            </div>
+            <a href="{% url 'adminpanel:logout' %}" style="display: block; text-align: center; font-size: 12px; color: var(--clr-text-subtle); margin-top: 10px; text-decoration: none;">
+                Sign Out
+            </a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <header class="topbar">
+            <div class="topbar-left">
+                <nav class="breadcrumb-nav">
+                    <span style="font-size: 16px;">&#128196;</span>
+                    <a href="{% url 'adminpanel:dashboard' %}">Home</a>
+                    <span class="breadcrumb-sep">&gt;</span>
+                    <a href="{% url 'assignments:admin_list' %}">Assessments</a>
+                    <span class="breadcrumb-sep">&gt;</span>
+                    <span class="breadcrumb-current">Create Assessment</span>
+                </nav>
+            </div>
+            <div class="topbar-right">
+                <a href="{% url 'assignments:admin_list' %}" class="live-dash-pill">
+                    <span>&#8592; Back to Catalog</span>
+                </a>
+            </div>
+        </header>
+
+        <div class="assignment-container">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Create New Assessment</h1>
+                    <p class="page-subtitle">Configure module categorization, exam settings, question rules, and scoring parameters.</p>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <a href="{% url 'assignments:admin_subjects' %}" class="btn btn-secondary">
+                        ⚙️ Manage Subjects & Topics
+                    </a>
+                    <a href="{% url 'assignments:admin_list' %}" class="btn btn-secondary">
+                        &larr; Back to Catalog
+                    </a>
+                </div>
+            </div>
+
+            {% if errors %}
+                <div class="alert alert-error">
+                    <ul style="margin-left: 20px;">
+                        {% for err in errors %}
+                            <li>{{ err }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <div class="form-card">
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <!-- Section 1: Basic Info -->
+                    <div style="margin-bottom: 24px;">
+                        <h3 style="font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;">
+                            1. Basic Information
+                        </h3>
+
+                        <div class="form-group">
+                            <label class="form-label">Assessment Title *</label>
+                            <input type="text" name="title" class="form-control" placeholder="e.g. Data Structures and Algorithms Comprehensive Test 1" value="{{ form_data.title|default:'' }}" required />
+                            <span class="help-text">Give a clear descriptive title that will appear on the student dashboard.</span>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Assessment Category (Module) *</label>
+                                <select name="module_id" id="moduleSelect" class="form-control" required>
+                                    <option value="">-- Select Category --</option>
+                                    {% for mod in modules %}
+                                        <option value="{{ mod.id }}" {% if form_data.module_id == mod.id|stringformat:"s" %}selected{% endif %}>
+                                            {{ mod.name }} (Weight: {{ mod.weight_percentage }}%)
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                <span class="help-text">Assigns the assessment to Core Subjects, Aptitude, Logical Reasoning, etc.</span>
+                            </div>
+
+                            <div class="form-group">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <label class="form-label">Subject Category *</label>
+                                    <a href="{% url 'assignments:admin_subjects' %}" target="_blank" style="font-size: 11.5px; color: #2563eb; text-decoration: underline;">
+                                        + Add New Subject
+                                    </a>
+                                </div>
+                                <select name="subject_category_id" id="subjectCategorySelect" class="form-control">
+                                    <option value="">-- Select Subject Category --</option>
+                                    {% for cat in subject_categories %}
+                                        <option value="{{ cat.id }}" data-module="{{ cat.module_id }}" data-name="{{ cat.name }}" data-topics="{{ cat.topics }}" {% if form_data.subject_category_id == cat.id|stringformat:"s" %}selected{% endif %}>
+                                            {{ cat.name }} ({{ cat.module.name }})
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                <span class="help-text">Dynamically filtered based on chosen category.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Subject Name *</label>
+                                <input type="text" name="subject" id="subjectInput" class="form-control" placeholder="e.g. Data Structures and Algorithms" value="{{ form_data.subject|default:'' }}" required />
+                                <span class="help-text">Auto-filled from chosen subject category or customized.</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Topic or Subtopic</label>
+                                <input type="text" name="topic" id="topicInput" class="form-control" placeholder="e.g. Arrays, Linked Lists, Stacks, Queues" value="{{ form_data.topic|default:'' }}" />
+                                <span class="help-text">Displayed on the horizontal student assessment row.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Test Configuration -->
+                    <div style="margin-bottom: 24px;">
+                        <h3 style="font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;">
+                            2. Test Configuration & Rules
+                        </h3>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label class="form-label">Assessment Type *</label>
+                                <select name="assessment_type" class="form-control">
+                                    <option value="SUBJECT" {% if form_data.assessment_type == 'SUBJECT' or not form_data.assessment_type %}selected{% endif %}>Subject Test</option>
+                                    <option value="PRACTICE" {% if form_data.assessment_type == 'PRACTICE' %}selected{% endif %}>Practice Test</option>
+                                    <option value="MOCK" {% if form_data.assessment_type == 'MOCK' %}selected{% endif %}>Mock Test / Final Exam</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Difficulty Level</label>
+                                <select name="difficulty" class="form-control">
+                                    <option value="EASY" {% if form_data.difficulty == 'EASY' %}selected{% endif %}>Easy</option>
+                                    <option value="MEDIUM" {% if form_data.difficulty == 'MEDIUM' or not form_data.difficulty %}selected{% endif %}>Medium</option>
+                                    <option value="HARD" {% if form_data.difficulty == 'HARD' %}selected{% endif %}>Hard</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Duration (Minutes) *</label>
+                                <input type="number" name="time_limit" class="form-control" min="1" max="300" value="{{ form_data.time_limit|default:'30' }}" required />
+                            </div>
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label class="form-label">Passing Threshold (%)</label>
+                                <input type="number" min="0" max="100" name="passing_percentage" class="form-control" value="{{ form_data.passing_percentage|default:'40' }}" />
+                                <span class="help-text">Minimum % required to achieve PASS status.</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Negative Marking (Penalty)</label>
+                                <input type="number" step="0.25" min="0" max="10" name="negative_marking" class="form-control" value="{{ form_data.negative_marking|default:'0.0' }}" />
+                                <span class="help-text">Deducted per incorrect response (0 for none).</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Maximum Allowed Attempts</label>
+                                <input type="number" min="1" max="10" name="max_attempts" class="form-control" value="{{ form_data.max_attempts|default:'1' }}" />
+                                <span class="help-text">Number of times a student can retake this test.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label class="form-label">Availability Start Date</label>
+                                <input type="datetime-local" name="start_date" class="form-control" value="{{ form_data.start_date|default:'' }}" />
+                                <span class="help-text">Optional: student cannot start before this time.</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Availability End Date</label>
+                                <input type="datetime-local" name="end_date" class="form-control" value="{{ form_data.end_date|default:'' }}" />
+                                <span class="help-text">Optional: deadline after which test is closed.</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Publication Status</label>
+                                <select name="status" class="form-control">
+                                    <option value="DRAFT" {% if form_data.status == 'DRAFT' or not form_data.status %}selected{% endif %}>Draft (Hidden from students)</option>
+                                    <option value="PUBLISHED" {% if form_data.status == 'PUBLISHED' %}selected{% endif %}>Published (Available to students)</option>
+                                    <option value="ARCHIVED" {% if form_data.status == 'ARCHIVED' %}selected{% endif %}>Archived (Closed for attempts)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Search Tags (Comma-separated)</label>
+                            <input type="text" name="tags" class="form-control" placeholder="e.g. dsa, coding, technical, mock" value="{{ form_data.tags|default:'' }}" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Security & Solution Release Toggles</label>
+                            <div class="checkbox-pill-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="shuffle_questions" value="1" {% if form_data.shuffle_questions %}checked{% endif %} />
+                                    <span>🔀 Shuffle Questions per Student</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="show_solutions_after_submission" value="1" {% if form_data.show_solutions_after_submission != '0' %}checked{% endif %} />
+                                    <span>💡 Release Answers & Explanations After Submission</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Description & Instructions -->
+                    <div style="margin-bottom: 24px;">
+                        <h3 style="font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;">
+                            3. Description & Student Guidelines
+                        </h3>
+
+                        <div class="form-group">
+                            <textarea name="description" rows="3" class="form-control" placeholder="Enter instructions, syllabus coverage, or rules for students before they begin...">{{ form_data.description|default:'' }}</textarea>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; margin-top: 24px; padding-top: 16px; border-top: 1px solid #e2e8f0;">
+                        <button type="submit" class="btn btn-primary" style="padding: 12px 24px; font-size: 14.5px;">
+                            Proceed to Add Questions &rarr;
+                        </button>
+                        <a href="{% url 'assignments:admin_list' %}" class="btn btn-secondary">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'adminpanel/js/script.js' %}"></script>
+    <script src="{% static 'core/js/theme.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const moduleSelect = document.getElementById('moduleSelect');
+            const subjectSelect = document.getElementById('subjectCategorySelect');
+            const subjectInput = document.getElementById('subjectInput');
+            const topicInput = document.getElementById('topicInput');
+
+            function filterSubjects() {
+                const selectedModuleId = moduleSelect.value;
+                const options = subjectSelect.querySelectorAll('option');
+
+                options.forEach(opt => {
+                    if (!opt.value) return;
+                    const modId = opt.getAttribute('data-module');
+                    if (!selectedModuleId || modId === selectedModuleId) {
+                        opt.style.display = '';
+                    } else {
+                        opt.style.display = 'none';
+                    }
+                });
+
+                const currentOpt = subjectSelect.options[subjectSelect.selectedIndex];
+                if (currentOpt && currentOpt.style.display === 'none') {
+                    subjectSelect.value = '';
+                }
+            }
+
+            moduleSelect.addEventListener('change', filterSubjects);
+
+            subjectSelect.addEventListener('change', function() {
+                const opt = subjectSelect.options[subjectSelect.selectedIndex];
+                if (opt && opt.value) {
+                    const name = opt.getAttribute('data-name');
+                    const topics = opt.getAttribute('data-topics');
+                    if (name && !subjectInput.value) {
+                        subjectInput.value = name;
+                    }
+                    if (topics && !topicInput.value) {
+                        topicInput.value = topics;
+                    }
+                }
+            });
+
+            if (moduleSelect.value) {
+                filterSubjects();
+            }
+        });
+    </script>
+</body>
+</html>
